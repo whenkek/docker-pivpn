@@ -1,0 +1,25 @@
+---
+version: '3'
+services:
+  wireguard:
+    image: archef2000/pivpn:latest
+    container_name: pivpn
+    hostname: pivpn
+    ports:
+      - 51821:51821/udp
+    volumes:
+      - ./wireguard/configs:/home/pivpn/configs
+      - ./wireguard/wireguard:/etc/wireguard
+    environment:
+      - HOST=stardust.myddns.me
+      - VPN=wireguard
+      - PORT=51821
+# optional
+      - CLIENT_NAME=pivpn
+      - NET=10.8.0.0
+      - DNS1=1.1.1.1 # Client DNS
+      - DNS2=8.8.8.8 # Client DNS
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    restart: always
